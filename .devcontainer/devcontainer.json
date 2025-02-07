@@ -6,8 +6,21 @@
     "customizations": {
         "vscode": {
             "extensions": [
-                "golang.go"
+                "golang.go",
+                "ms-azuretools.vscode-docker"
             ]
         }
-    }
+    },
+    "runArgs": [
+        "--network=host"
+    ],
+    "containerEnv": {
+        "DISPLAY": "${localEnv:DISPLAY}"
+    },
+    "mounts": [
+        "source=/dev/dri,target=/dev/dri,type=bind,readonly",
+        "source=Tanuki-Ledger-go-dir,target=/go,type=volume",
+        "source=Tanuki-Ledger-cache,target=/root/.cache,type=volume"
+    ],
+    "initializeCommand": "xhost +local:docker"
 }
