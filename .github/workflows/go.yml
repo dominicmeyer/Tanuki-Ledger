@@ -1,0 +1,68 @@
+name: Go
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  check-formatting:
+    runs-on: golang:1.23.6
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: install goimports
+      run: go install golang.org/x/tools/cmd/goimports@v0.30.0
+
+    - name: run goimports
+      run: goimports -l .
+
+  check-vet:
+    runs-on: golang:1.23.6
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: run vet
+      run: go vet ./...
+
+  check-lint:
+    runs-on: golang:1.23.6
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: install goimports
+      run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.5
+
+    - name: run golangci-lint
+      run: golangci-lint run ./...
+
+  check-cyclo:
+    runs-on: golang:1.23.6
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: install gocyclo
+      run: go install github.com/fzipp/gocyclo/cmd/gocyclo@v0.6.0
+
+    - name: run gocyclo
+      run: gocyclo -over 30 .
+
+  tests:
+    runs-on: golang:1.23.6
+    needs: [check-formatting, check-vet, check-lint, check-cyclo]
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: run tests
+      run: go test ./...
+
+  build:
+    runs-on: golang:1.23.6
+    needs: tests
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: build project
+      run: go build
