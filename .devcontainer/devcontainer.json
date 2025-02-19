@@ -8,7 +8,14 @@
             "extensions": [
                 "golang.go",
                 "ms-azuretools.vscode-docker"
-            ]
+            ],
+            "settings": {
+                // recomemended settings from https://golangci-lint.run/welcome/integrations/
+                "go.lintTool": "golangci-lint",
+                "go.lintFlags": [
+                "--fast"
+                ]
+            }
         }
     },
     "runArgs": [
