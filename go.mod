@@ -1,4 +1,4 @@
-module TanukiLedger
+module github.com/dominicmeyer/Tanuki-Ledger
 
 go 1.23.6
 
