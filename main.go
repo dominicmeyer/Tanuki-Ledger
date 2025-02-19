@@ -10,4 +10,3 @@ func main() {
 
 	w.ShowAndRun()
 }
-test-error
