@@ -16,9 +16,6 @@ jobs:
     - name: Setup Go environment
       uses: actions/setup-go@v5.3.0
 
-    - name: Setup dependencies
-      run: sudo apt-get update && sudo apt-get install -y gcc=4:13.2.0-7* libgl1-mesa-dev=24.0.5-1* xorg-dev=1:7.7+23* libxkbcommon-dev=1.6.0-1*
-
     - name: install goimports
       run: go install golang.org/x/tools/cmd/goimports@v0.30.0
 
@@ -53,6 +50,9 @@ jobs:
     - name: install goimports
       run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.5
 
+    - name: install dependencies
+      run: go mod download
+
     - name: run golangci-lint
       run: golangci-lint run ./...
 
@@ -63,9 +63,6 @@ jobs:
     
     - name: Setup Go environment
       uses: actions/setup-go@v5.3.0
-
-    - name: Setup dependencies
-      run: sudo apt-get update && sudo apt-get install -y gcc=4:13.2.0-7* libgl1-mesa-dev=24.0.5-1* xorg-dev=1:7.7+23* libxkbcommon-dev=1.6.0-1*
 
     - name: install gocyclo
       run: go install github.com/fzipp/gocyclo/cmd/gocyclo@v0.6.0
