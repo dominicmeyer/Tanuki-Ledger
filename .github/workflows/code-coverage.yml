@@ -40,9 +40,9 @@ jobs:
 
       - name: get badge
         run: |
-          [ $(awk 'BEGIN { print $coverage >= 70.0 }') -eq 1 ] && wget https://img.shields.io/badge/Test_Coverage-$coverage%-green -O pages/coverage_report.html/badge.svg
-          [ $(awk 'BEGIN { print 70.0 > $coverage && $coverage >= 40.0 }') -eq 1 ] && wget https://img.shields.io/badge/Test_Coverage-$coverage%-yellow -O pages/coverage_report.html/badge.svg
-          [ $(awk 'BEGIN { print 40.0 > $coverage }') -eq 1 ] && wget https://img.shields.io/badge/Test_Coverage-$coverage%-red -O pages/coverage_report.html/badge.svg
+          [ $(awk 'BEGIN { print $coverage >= 70.0 }') -eq 1 ]                     && wget https://img.shields.io/badge/Test_Coverage-$coverage%-green -O pages/coverage_report.html/badge.svg
+          [ $(awk 'BEGIN { print $coverage < 70.0 && $coverage >= 40.0 }') -eq 1 ] && wget https://img.shields.io/badge/Test_Coverage-$coverage%-yellow -O pages/coverage_report.html/badge.svg
+          [ $(awk 'BEGIN { print $coverage < 40.0 }') -eq 1 ]                      && wget https://img.shields.io/badge/Test_Coverage-$coverage%-red -O pages/coverage_report.html/badge.svg
 
       - name: create report
         run: go tool cover -html=c.out -o=pages/index.html
