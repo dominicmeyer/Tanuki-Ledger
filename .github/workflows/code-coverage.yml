@@ -35,13 +35,22 @@ jobs:
       - name: run tests
         run: coverage=$(go test -coverprofile=c.out | grep coverage | sed -r "s/.*([0-9]+\.[0-9]+).*/\1/")
 
+      - name: create pages directory
+        run: mkdir pages && mkdir pages/coverage_report.html
+
+      - name: get badge
+        run: |
+          [ $(awk 'BEGIN { print $coverage >= 70.0 }') -eq 1 ] && wget https://img.shields.io/badge/Test_Coverage-$coverage%-green -O pages/coverage_report.html/badge.svg
+          [ $(awk 'BEGIN { print 70.0 > $coverage && $coverage >= 40.0 }') -eq 1 ] && wget https://img.shields.io/badge/Test_Coverage-$coverage%-yellow -O pages/coverage_report.html/badge.svg
+          [ $(awk 'BEGIN { print 40.0 > $coverage }') -eq 1 ] && wget https://img.shields.io/badge/Test_Coverage-$coverage%-red -O pages/coverage_report.html/badge.svg
+
       - name: create report
-        run: mkdir reports && go tool cover -html=c.out -o=reports/coverage_report.html
+        run: go tool cover -html=c.out -o=pages/index.html
         
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'reports'
+          path: 'pages'
         
   deploy-report:
     needs: build-report
