@@ -22,7 +22,7 @@ jobs:
       uses: actions/cache@v4
       with:
         key: check-formatting-go-cache
-        path: $GOPATH
+        path: ${{ env.GOPATH }}
 
     - name: install goimports
       run: go install golang.org/x/tools/cmd/goimports@v0.30.0
@@ -44,7 +44,7 @@ jobs:
       uses: actions/cache@v4
       with:
         key: check-vet-go-cache
-        path: $GOPATH
+        path: ${{ env.GOPATH }}
 
     - name: Get go packages
       run: go get
@@ -52,7 +52,7 @@ jobs:
     - name: Cache Apt
       uses: actions/cache@v4
       with:
-        key: check-vet-go-cache
+        key: check-vet-apt-cache
         path: /usr
 
     - name: Setup dependencies
