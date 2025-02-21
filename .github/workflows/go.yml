@@ -13,16 +13,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Setup Go environment
+    - name: setup go environment
       uses: actions/setup-go@v5.3.0
       with:
         go-version: "1.23.6"
-
-    - name: Cache Go
-      uses: actions/cache@v4
-      with:
-        key: check-formatting-go-cache
-        path: "$GOPATH"
 
     - name: install goimports
       run: go install golang.org/x/tools/cmd/goimports@v0.30.0
@@ -35,27 +29,12 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Setup Go environment
+    - name: setup go environment
       uses: actions/setup-go@v5.3.0
       with:
         go-version: "1.23.6"
 
-    - name: Cache Go
-      uses: actions/cache@v4
-      with:
-        key: check-vet-go-cache
-        path: "$GOPATH"
-
-    - name: Get go packages
-      run: go get
-
-    - name: Cache Apt
-      uses: actions/cache@v4
-      with:
-        key: check-vet-apt-cache
-        path: /usr
-
-    - name: Setup dependencies
+    - name: setup system dependencies
       run: sudo apt-get update && sudo apt-get install -y gcc=4:13.2.0-7* libgl1-mesa-dev=24.0.5-1* xorg-dev=1:7.7+23* libxkbcommon-dev=1.6.0-1*
 
     - name: run vet
@@ -66,10 +45,12 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Setup Go environment
+    - name: setup go environment
       uses: actions/setup-go@v5.3.0
+      with:
+        go-version: "1.23.6"
 
-    - name: Setup dependencies
+    - name: setup system dependencies
       run: sudo apt-get update && sudo apt-get install -y gcc=4:13.2.0-7* libgl1-mesa-dev=24.0.5-1* xorg-dev=1:7.7+23* libxkbcommon-dev=1.6.0-1*
 
     - name: run golangci-lint
@@ -82,8 +63,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Setup Go environment
+    - name: setup go environment
       uses: actions/setup-go@v5.3.0
+      with:
+        go-version: "1.23.6"
 
     - name: install gocyclo
       run: go install github.com/fzipp/gocyclo/cmd/gocyclo@v0.6.0
@@ -97,10 +80,12 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Setup Go environment
+    - name: setup go environment
       uses: actions/setup-go@v5.3.0
+      with:
+        go-version: "1.23.6"
 
-    - name: Setup dependencies
+    - name: setup system dependencies
       run: sudo apt-get update && sudo apt-get install -y gcc=4:13.2.0-7* libgl1-mesa-dev=24.0.5-1* xorg-dev=1:7.7+23* libxkbcommon-dev=1.6.0-1*
 
     - name: run tests
@@ -112,10 +97,12 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Setup Go environment
+    - name: setup go environment
       uses: actions/setup-go@v5.3.0
+      with:
+        go-version: "1.23.6"
 
-    - name: Setup dependencies
+    - name: setup system dependencies
       run: sudo apt-get update && sudo apt-get install -y gcc=4:13.2.0-7* libgl1-mesa-dev=24.0.5-1* xorg-dev=1:7.7+23* libxkbcommon-dev=1.6.0-1*
 
     - name: build project
