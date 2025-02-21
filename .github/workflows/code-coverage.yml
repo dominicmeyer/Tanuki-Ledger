@@ -33,19 +33,21 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y gcc=4:13.2.0-7* libgl1-mesa-dev=24.0.5-1* xorg-dev=1:7.7+23* libxkbcommon-dev=1.6.0-1*
   
       - name: run tests
-        run: coverage=$(go test -coverprofile=c.out | grep coverage | sed -r "s/.*([0-9]+\.[0-9]+).*/\1/")
+        id: run-tests
+        run: echo "coverage=$(go test -coverprofile=c.out | grep coverage | sed -r "s/.*([0-9]+\.[0-9]+).*/\1/")" >> "$GITHUB_OUTPUT"
 
       - name: create pages directory
-        run: mkdir pages && mkdir pages/coverage_report.html
+        run: mkdir pages && mkdir pages/coverage_report
 
       - name: get badge
         run: |
-          [ $(awk 'BEGIN { print $coverage >= 70.0 }') -eq 1 ]                     && wget https://img.shields.io/badge/Test_Coverage-$coverage%-green -O pages/coverage_report.html/badge.svg
-          [ $(awk 'BEGIN { print $coverage < 70.0 && $coverage >= 40.0 }') -eq 1 ] && wget https://img.shields.io/badge/Test_Coverage-$coverage%-yellow -O pages/coverage_report.html/badge.svg
-          [ $(awk 'BEGIN { print $coverage < 40.0 }') -eq 1 ]                      && wget https://img.shields.io/badge/Test_Coverage-$coverage%-red -O pages/coverage_report.html/badge.svg
+          coverage="${{ steps.run-tests.outputs.coverage }}"
+          [ $(awk 'BEGIN { print $coverage >= 70.0 }') -eq 1 ]                     && wget https://img.shields.io/badge/Test_Coverage-$coverage%-green  -O pages/coverage_report/badge.svg
+          [ $(awk 'BEGIN { print $coverage < 70.0 && $coverage >= 40.0 }') -eq 1 ] && wget https://img.shields.io/badge/Test_Coverage-$coverage%-yellow -O pages/coverage_report/badge.svg
+          [ $(awk 'BEGIN { print $coverage < 40.0 }') -eq 1 ]                      && wget https://img.shields.io/badge/Test_Coverage-$coverage%-red    -O pages/coverage_report/badge.svg
 
       - name: create report
-        run: go tool cover -html=c.out -o=pages/index.html
+        run: go tool cover -html=c.out -o=pages/coverage_report/index.html
         
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
