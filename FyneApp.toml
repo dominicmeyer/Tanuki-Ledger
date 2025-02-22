@@ -1,0 +1,6 @@
+[Details]
+  Icon = "static/Icon1024x1024.png"
+  Name = "Tanuki-Ledger"
+  ID = "github.com/dominicmeyer/Tanuki-Ledger"
+  Version = "0.0.1"
+  Build = 3
