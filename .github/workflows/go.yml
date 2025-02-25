@@ -58,8 +58,6 @@ jobs:
 
     - name: run golangci-lint
       uses: golangci/golangci-lint-action@2226d7cb06a077cd73e56eedd38eecad18e5d837
-      with:
-        args: --timeout=30m
 
   check-cyclo:
     runs-on: ubuntu-latest
