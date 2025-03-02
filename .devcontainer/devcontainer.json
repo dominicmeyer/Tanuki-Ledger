@@ -14,7 +14,8 @@
                 "go.lintTool": "golangci-lint",
                 "go.lintFlags": [
                 "--fast"
-                ]
+                ],
+                "go.toolsManagement.autoUpdate": true
             }
         }
     },
