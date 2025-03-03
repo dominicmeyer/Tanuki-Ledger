@@ -2,20 +2,14 @@ package main
 
 import (
 	"fyne.io/fyne/v2/app"
-	"fyne.io/fyne/v2/widget"
+	"github.com/dominicmeyer/Tanuki-Ledger/internal/gui"
 )
 
 func main() {
 	a := app.New()
 	w := a.NewWindow("Tanuki-Ledger")
 
-	w.SetContent(createAddDatabaseButton())
+	w.SetContent(gui.NewDatabaseConnectionButton())
 
 	w.ShowAndRun()
-}
-
-func createAddDatabaseButton() *widget.Button {
-	button := widget.NewButton("Add Database Connection", func() {})
-
-	return button
 }
