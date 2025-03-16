@@ -1,0 +1,145 @@
+name: Code Quality tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+
+  check-formatting:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: setup go environment
+      uses: actions/setup-go@v5.3.0
+      with:
+        go-version: "1.23.6"
+
+    - name: install goimports
+      run: go install golang.org/x/tools/cmd/goimports@v0.30.0
+
+    - name: run goimports
+      run: goimports -l .
+
+  check-vet:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: setup go environment
+      uses: actions/setup-go@v5.3.0
+      with:
+        go-version: "1.23.6"
+
+    - name: run vet
+      run: go vet ./...
+
+  check-lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: setup go environment
+      uses: actions/setup-go@v5.3.0
+      with:
+        go-version: "1.23.6"
+
+    - name: run golangci-lint
+      uses: golangci/golangci-lint-action@2226d7cb06a077cd73e56eedd38eecad18e5d837
+
+  check-cyclo:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: setup go environment
+      uses: actions/setup-go@v5.3.0
+      with:
+        go-version: "1.23.6"
+
+    - name: install gocyclo
+      run: go install github.com/fzipp/gocyclo/cmd/gocyclo@v0.6.0
+
+    - name: run gocyclo
+      run: gocyclo -over 30 .
+
+  tests:
+    runs-on: ubuntu-latest
+    needs: [check-formatting, check-vet, check-lint, check-cyclo]
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: setup go environment
+      uses: actions/setup-go@v5.3.0
+      with:
+        go-version: "1.23.6"
+
+    - name: run tests
+      run: go test ./...
+
+  build:
+    runs-on: ubuntu-latest
+    needs: tests
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: setup go environment
+      uses: actions/setup-go@v5.3.0
+      with:
+        go-version: "1.23.6"
+
+    - name: build project
+      run: go build
+
+  e2e:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: setup go environment
+      uses: actions/setup-go@v5.3.0
+      with:
+        go-version: "1.23.6"
+
+    - name: setup system dependencies
+      run: |
+        apt-get update && apt-get install -y \
+          nodejs=18.19.0* \
+          npm=9.2.0* \
+          libgtk2.0-0=2.24.33* \
+          libgtk-3-0=3.24.38* \
+          libgbm-dev=22.3.6* \
+          libnotify-dev=0.8.1* \
+          libnss3=2:3.87.1* \
+          libxss1=1:1.2.3* \
+          libasound2=1.2.8* \
+          libxtst6=2:1.2.3* \
+          xauth=1:1.1.2* \
+          xvfb=2:21.1.7* \
+
+    - name: npm installation
+      run: npm ci
+
+    - name: run tailwind
+      run: npx --yes tailwindcss -i ./static/css/style.css -o ./static/css/tailwind.css --minify
+
+    - name: run templ
+      run: templ generate
+
+    - name: build project
+      run: go build -o main
+
+    - name: run e2e
+      run: |
+        ./main &
+        while ! nc -z localhost 8080; do   
+          sleep 0.1
+        done
+        npm run e2e

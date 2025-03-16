@@ -1,0 +1,50 @@
+{
+	"name": "Tanuki-Ledger",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "golang.go",
+                "ms-azuretools.vscode-docker",
+                "tamasfe.even-better-toml",
+                "craigrbroughton.htmx-attributes",
+                "github.vscode-github-actions",
+                "a-h.templ",
+                "bradlc.vscode-tailwindcss"
+            ],
+            "settings": {
+                // recommended settings from https://golangci-lint.run/welcome/integrations/
+                "go.lintTool": "golangci-lint",
+                "go.lintFlags": [
+                "--fast"
+                ],
+                "go.toolsManagement.autoUpdate": true,
+                "evenBetterToml.schema.enabled": false,
+                "editor.formatOnSave": true,
+                "[templ]": {
+                    "editor.defaultFormatter": "a-h.templ"
+                },
+                "tailwindCSS.includeLanguages": {
+                    "templ": "html"
+                },
+                "emmet.includeLanguages": {
+                    "templ": "html"
+                }
+            }
+        }
+    },
+    "runArgs": [
+        "--network=host"
+    ],
+    "containerEnv": {
+        "DISPLAY": "${localEnv:DISPLAY}"
+    },
+    "mounts": [
+        "source=/dev/dri,target=/dev/dri,type=bind,readonly",
+        "source=Tanuki-Ledger-go-dir,target=/go,type=volume",
+        "source=Tanuki-Ledger-cache,target=/root/.cache,type=volume"
+    ],
+    "initializeCommand": "xhost +local:docker"
+}

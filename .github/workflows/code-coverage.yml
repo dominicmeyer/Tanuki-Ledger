@@ -1,0 +1,74 @@
+name: deploy coverage report to pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "code-coverage-pages"
+  cancel-in-progress: false
+
+jobs:
+  build-report:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: setup go environment
+        uses: actions/setup-go@v5.3.0
+        with:
+          go-version: "1.23.6"
+  
+      - name: run tests
+        id: run-tests
+        run: echo "coverage=$(go test -coverprofile=c.out | grep coverage | sed -r "s/.*([0-9]+\.[0-9]+).*/\1/")" >> "$GITHUB_OUTPUT"
+
+      - name: create pages directory
+        run: mkdir pages && mkdir pages/coverage_report
+
+      - name: get badge
+        run: |
+          coverage="${{ steps.run-tests.outputs.coverage }}"
+          [ $(awk 'BEGIN { print $coverage >= 70.0 }') -eq 1 ]                     && wget https://img.shields.io/badge/Test_Coverage-$coverage%-green  -O pages/coverage_report/badge.svg
+          [ $(awk 'BEGIN { print $coverage < 70.0 && $coverage >= 40.0 }') -eq 1 ] && wget https://img.shields.io/badge/Test_Coverage-$coverage%-yellow -O pages/coverage_report/badge.svg
+          [ $(awk 'BEGIN { print $coverage < 40.0 }') -eq 1 ]                      && wget https://img.shields.io/badge/Test_Coverage-$coverage%-red    -O pages/coverage_report/badge.svg
+
+      - name: create report
+        run: go tool cover -html=c.out -o=pages/coverage_report/index.html
+        
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'pages'
+        
+  deploy-report:
+    needs: build-report
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: setup go environment
+        uses: actions/setup-go@v5.3.0
+        with:
+          go-version: "1.23.6"
+        
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+          
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

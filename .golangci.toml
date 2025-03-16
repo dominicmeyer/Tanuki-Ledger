@@ -1,0 +1,12 @@
+[linters]
+enable-all=true
+disable = [
+    "tenv",
+    "depguard",
+    "testpackage",
+]
+
+[run]
+timeout="30m"
+allow-parallel-runners=true
+allow-serial-runners=true

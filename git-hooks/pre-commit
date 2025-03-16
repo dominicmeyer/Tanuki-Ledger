@@ -1,0 +1,15 @@
+#!/bin/bash
+fail_if_err () {
+    eval $2
+    if [ "$?" -ne 0 ]; then
+        echo "FAILED " $1
+        exit 1
+    fi
+}
+
+fail_if_err "FORMAT"    "[ -z $(goimports -l .) ]"
+fail_if_err "TEST"      "go test ./... > /dev/null"
+fail_if_err "VET"       "go vet ./..."
+fail_if_err "LINT"      "golangci-lint run ./..."
+fail_if_err "CYCLO"     "gocyclo -over 30 ."
+fail_if_err "CYPRESS"   "npm run e2e > /dev/null"
