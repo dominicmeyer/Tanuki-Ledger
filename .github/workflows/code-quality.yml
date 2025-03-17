@@ -125,6 +125,9 @@ jobs:
           xauth=1:1.1.2* \
           xvfb=2:21.1.12*
 
+    - name: install templ
+      run: go install github.com/a-h/templ/cmd/templ@v0.3.833
+
     - name: npm installation
       run: npm ci
 
