@@ -33,18 +33,18 @@ jobs:
         run: mkdir pages && mkdir pages/coverage_report  
 
       - name: run tests
-        id: run-tests
         run: go test -coverprofile=c.out
 
       - name: create report
         run: go tool cover -html=c.out -o=pages/coverage_report/index.html
 
       - name: determine percentage
+        id: percentage
         run: echo "coverage=$(go tool cover -func=c.out | grep total | sed -r "s/.*([0-9]+\.[0-9]+).*/\1/")" >> "$GITHUB_OUTPUT"
 
       - name: get badge
         run: |
-          coverage="${{ steps.run-tests.outputs.coverage }}"
+          coverage="${{ steps.percentage.outputs.coverage }}"
           [ $(awk 'BEGIN { print $coverage >= 70.0 }') -eq 1 ]                     && wget https://img.shields.io/badge/Test_Coverage-$coverage%-green  -O pages/coverage_report/badge.svg
           [ $(awk 'BEGIN { print $coverage < 70.0 && $coverage >= 40.0 }') -eq 1 ] && wget https://img.shields.io/badge/Test_Coverage-$coverage%-yellow -O pages/coverage_report/badge.svg
           [ $(awk 'BEGIN { print $coverage < 40.0 }') -eq 1 ]                      && wget https://img.shields.io/badge/Test_Coverage-$coverage%-red    -O pages/coverage_report/badge.svg
