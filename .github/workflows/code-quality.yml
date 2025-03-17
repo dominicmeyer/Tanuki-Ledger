@@ -110,7 +110,7 @@ jobs:
 
     - name: setup system dependencies
       run: |
-        apt-get update && apt-get install -y \
+        sudo apt-get update && sudo apt-get install -y \
           nodejs=18.19.0* \
           npm=9.2.0* \
           libgtk2.0-0=2.24.33* \
