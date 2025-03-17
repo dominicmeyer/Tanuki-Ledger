@@ -110,7 +110,7 @@ jobs:
 
     - name: setup system dependencies
       run: |
-        sudo apt-get update && sudo apt-get install -y \
+        sudo apt-get update && sudo apt-get install -y --allow-downgrades \
           nodejs=18.19.1* \
           npm=9.2.0* \
           libgtk2.0-0t64=2.24.33* \
