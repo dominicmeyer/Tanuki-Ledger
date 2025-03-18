@@ -131,16 +131,5 @@ jobs:
     - name: npm installation
       run: npm ci
 
-    - name: generate additional code
-      run: go generate
-
-    - name: build project
-      run: go build -o main
-
     - name: run e2e
-      run: |
-        ./main &
-        while ! nc -z localhost 8080; do   
-          sleep 0.1
-        done
-        npm run e2e
+      run: npm run e2e
