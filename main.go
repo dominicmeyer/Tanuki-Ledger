@@ -3,10 +3,8 @@ package main
 import (
 	"embed"
 	"net/http"
-	"time"
 
 	"github.com/a-h/templ"
-	"github.com/dominicmeyer/Tanuki-Ledger/internal/components"
 )
 
 //go:embed static/*
@@ -16,15 +14,12 @@ var static embed.FS
 //go:generate templ generate
 
 func main() {
-	timeoutSeconds := 3
-
 	server := new(http.Server)
 	server.Addr = ":8080"
-	server.ReadHeaderTimeout = time.Duration(timeoutSeconds) * time.Second
 
 	pagesHandler := http.NewServeMux()
 
-	pagesHandler.Handle("/", templ.Handler(components.Index()))
+	pagesHandler.Handle("/", templ.Handler(templ.NopComponent))
 	pagesHandler.Handle("/static/", http.FileServer(http.FS(static)))
 
 	server.Handler = pagesHandler
