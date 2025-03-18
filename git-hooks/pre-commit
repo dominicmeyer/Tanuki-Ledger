@@ -7,6 +7,8 @@ fail_if_err () {
     fi
 }
 
+fail_if_err "CODE_GENERATION"   "go generate"
+
 go_files=$(find . -name "*.go" -not -name "*_templ*")
 
 fail_if_err "FORMAT"    "[ -z $(goimports -l $go_files) ]"
