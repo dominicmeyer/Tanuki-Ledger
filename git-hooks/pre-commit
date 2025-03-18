@@ -7,7 +7,9 @@ fail_if_err () {
     fi
 }
 
-fail_if_err "FORMAT"    "[ -z $(goimports -l .) ]"
+go_files=$(find . -name "*.go" -not -name "*_templ*")
+
+fail_if_err "FORMAT"    "[ -z $(goimports -l $go_files) ]"
 fail_if_err "TEST"      "go test ./... > /dev/null"
 fail_if_err "VET"       "go vet ./..."
 fail_if_err "LINT"      "golangci-lint run ./..."

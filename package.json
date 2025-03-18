@@ -1,7 +1,7 @@
 {
     "name": "tanukiledger-tests",
     "scripts": {
-        "e2e": "cypress run"
+        "e2e": "air & cypress run"
     },
     "devDependencies": {
         "cypress": "^14.2.0"
