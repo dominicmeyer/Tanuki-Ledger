@@ -131,11 +131,8 @@ jobs:
     - name: npm installation
       run: npm ci
 
-    - name: run tailwind
-      run: npx --yes tailwindcss -i ./static/css/style.css -o ./static/css/tailwind.css --minify
-
-    - name: run templ
-      run: templ generate
+    - name: generate additional code
+      run: go generate
 
     - name: build project
       run: go build -o main
