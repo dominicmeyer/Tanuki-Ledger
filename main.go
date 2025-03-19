@@ -11,7 +11,7 @@ import (
 //go:embed static/*
 var static embed.FS
 
-//go:generate npx --yes tailwindcss -i ./static/css/style.css -o ./static/css/tailwind.css --minify
+//go:generate npm ci && npx --yes tailwindcss -i ./static/css/style.css -o ./static/css/tailwind.css --minify
 //go:generate templ generate
 
 func main() {
