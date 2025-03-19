@@ -37,6 +37,12 @@ jobs:
       with:
         go-version: "1.23.6"
 
+    - name: install templ
+      run: go install github.com/a-h/templ/cmd/templ@v0.3.833
+
+    - name: generate code
+      run: go generate
+
     - name: run vet
       run: go vet ./...
 
@@ -49,6 +55,12 @@ jobs:
       uses: actions/setup-go@v5.3.0
       with:
         go-version: "1.23.6"
+
+    - name: install templ
+      run: go install github.com/a-h/templ/cmd/templ@v0.3.833
+
+    - name: generate code
+      run: go generate
 
     - name: run golangci-lint
       uses: golangci/golangci-lint-action@2226d7cb06a077cd73e56eedd38eecad18e5d837
@@ -80,6 +92,12 @@ jobs:
       with:
         go-version: "1.23.6"
 
+    - name: install templ
+      run: go install github.com/a-h/templ/cmd/templ@v0.3.833
+
+    - name: generate code
+      run: go generate
+
     - name: run tests
       run: go test ./...
 
@@ -93,6 +111,12 @@ jobs:
       uses: actions/setup-go@v5.3.0
       with:
         go-version: "1.23.6"
+
+    - name: install templ
+      run: go install github.com/a-h/templ/cmd/templ@v0.3.833
+
+    - name: generate code
+      run: go generate
 
     - name: build project
       run: go build
