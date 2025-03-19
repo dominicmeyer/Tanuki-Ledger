@@ -37,6 +37,12 @@ jobs:
       with:
         go-version: "1.23.6"
 
+    - name: install templ
+      run: go install github.com/a-h/templ/cmd/templ@v0.3.833
+
+    - name: generate code
+      run: go generate
+
     - name: run vet
       run: go vet ./...
 
@@ -49,6 +55,12 @@ jobs:
       uses: actions/setup-go@v5.3.0
       with:
         go-version: "1.23.6"
+
+    - name: install templ
+      run: go install github.com/a-h/templ/cmd/templ@v0.3.833
+
+    - name: generate code
+      run: go generate
 
     - name: run golangci-lint
       uses: golangci/golangci-lint-action@4696ba8babb6127d732c3c6dde519db15edab9ea
@@ -80,6 +92,12 @@ jobs:
       with:
         go-version: "1.23.6"
 
+    - name: install templ
+      run: go install github.com/a-h/templ/cmd/templ@v0.3.833
+
+    - name: generate code
+      run: go generate
+
     - name: run tests
       run: go test ./...
 
@@ -93,6 +111,12 @@ jobs:
       uses: actions/setup-go@v5.3.0
       with:
         go-version: "1.23.6"
+
+    - name: install templ
+      run: go install github.com/a-h/templ/cmd/templ@v0.3.833
+
+    - name: generate code
+      run: go generate
 
     - name: build project
       run: go build
@@ -128,22 +152,5 @@ jobs:
     - name: install templ
       run: go install github.com/a-h/templ/cmd/templ@v0.3.833
 
-    - name: npm installation
-      run: npm ci
-
-    - name: run tailwind
-      run: npx --yes tailwindcss -i ./static/css/style.css -o ./static/css/tailwind.css --minify
-
-    - name: run templ
-      run: templ generate
-
-    - name: build project
-      run: go build -o main
-
     - name: run e2e
-      run: |
-        ./main &
-        while ! nc -z localhost 8080; do   
-          sleep 0.1
-        done
-        npm run e2e
+      run: npm run e2e
