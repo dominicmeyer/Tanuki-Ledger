@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/a-h/templ"
+	"github.com/dominicmeyer/Tanuki-Ledger/internal/components"
 )
 
 //go:embed static/*
@@ -19,7 +20,7 @@ func main() {
 
 	pagesHandler := http.NewServeMux()
 
-	pagesHandler.Handle("/", templ.Handler(templ.NopComponent))
+	pagesHandler.Handle("/", templ.Handler(components.Index()))
 	pagesHandler.Handle("/static/", http.FileServer(http.FS(static)))
 
 	server.Handler = pagesHandler
