@@ -1,12 +1,42 @@
-[linters]
-enable-all=true
-disable = [
-    "tenv",
-    "depguard",
-    "testpackage",
-]
+version = '2'
 
 [run]
-timeout="30m"
-allow-parallel-runners=true
-allow-serial-runners=true
+allow-parallel-runners = true
+allow-serial-runners = true
+
+[linters]
+default = 'all'
+disable = [
+  'depguard',
+  'testpackage'
+]
+
+[linters.exclusions]
+generated = 'lax'
+presets = [
+  'comments',
+  'common-false-positives',
+  'legacy',
+  'std-error-handling'
+]
+paths = [
+  'third_party$',
+  'builtin$',
+  'examples$'
+]
+
+[formatters]
+enable = [
+  'gci',
+  'gofmt',
+  'gofumpt',
+  'goimports'
+]
+
+[formatters.exclusions]
+generated = 'lax'
+paths = [
+  'third_party$',
+  'builtin$',
+  'examples$'
+]

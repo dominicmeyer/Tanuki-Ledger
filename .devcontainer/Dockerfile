@@ -15,7 +15,7 @@ RUN apt-get update \
     libxtst6=2:1.2.3* \
     xauth=1:1.1.2* \
     xvfb=2:21.1.7* \
-    && go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.5 \
+    && go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.0.2 \
     && go install golang.org/x/tools/cmd/goimports@v0.30.0 \
     && go install github.com/fzipp/gocyclo/cmd/gocyclo@v0.6.0 \
     && go install github.com/air-verse/air@v1.61.7 \

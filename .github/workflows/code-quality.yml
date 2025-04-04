@@ -17,7 +17,7 @@ jobs:
     - uses: actions/checkout@v4
     
     - name: setup go environment
-      uses: actions/setup-go@v5.3.0
+      uses: actions/setup-go@v5.4.0
       with:
         go-version: "1.23.6"
 
@@ -33,7 +33,7 @@ jobs:
     - uses: actions/checkout@v4
     
     - name: setup go environment
-      uses: actions/setup-go@v5.3.0
+      uses: actions/setup-go@v5.4.0
       with:
         go-version: "1.23.6"
 
@@ -52,7 +52,7 @@ jobs:
     - uses: actions/checkout@v4
     
     - name: setup go environment
-      uses: actions/setup-go@v5.3.0
+      uses: actions/setup-go@v5.4.0
       with:
         go-version: "1.23.6"
 
@@ -63,7 +63,7 @@ jobs:
       run: go generate
 
     - name: run golangci-lint
-      uses: golangci/golangci-lint-action@2226d7cb06a077cd73e56eedd38eecad18e5d837
+      uses: golangci/golangci-lint-action@1481404843c368bc19ca9406f87d6e0fc97bdcfd
 
   check-cyclo:
     runs-on: ubuntu-latest
@@ -71,7 +71,7 @@ jobs:
     - uses: actions/checkout@v4
     
     - name: setup go environment
-      uses: actions/setup-go@v5.3.0
+      uses: actions/setup-go@v5.4.0
       with:
         go-version: "1.23.6"
 
@@ -88,7 +88,7 @@ jobs:
     - uses: actions/checkout@v4
     
     - name: setup go environment
-      uses: actions/setup-go@v5.3.0
+      uses: actions/setup-go@v5.4.0
       with:
         go-version: "1.23.6"
 
@@ -108,7 +108,7 @@ jobs:
     - uses: actions/checkout@v4
     
     - name: setup go environment
-      uses: actions/setup-go@v5.3.0
+      uses: actions/setup-go@v5.4.0
       with:
         go-version: "1.23.6"
 
@@ -128,7 +128,7 @@ jobs:
     - uses: actions/checkout@v4
     
     - name: setup go environment
-      uses: actions/setup-go@v5.3.0
+      uses: actions/setup-go@v5.4.0
       with:
         go-version: "1.23.6"
 
