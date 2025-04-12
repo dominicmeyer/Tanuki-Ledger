@@ -26,6 +26,7 @@ runs:
         go-version: $GO_VERSION
 
     - name: setup system dependencies
+      shell: bash
       run: |
         sudo apt-get update && sudo apt-get install -y --allow-downgrades \
           nodejs=18.19.1* \
@@ -43,24 +44,30 @@ runs:
           xvfb=2:21.1.12*
 
     - name: install npm packages
+      shell: bash
       if: steps.cache.outputs.cache-hit != 'true'
       run: npm install
 
     - name: install templ
+      shell: bash
       if: steps.cache.outputs.cache-hit != 'true'
       run: go install github.com/a-h/templ/cmd/templ@$TEMPL_VERSION
 
     - name: install air
+      shell: bash
       if: steps.cache.outputs.cache-hit != 'true'
       run: go install github.com/air-verse/air@$AIR_VERSION
 
     - name: install gocyclo
+      shell: bash
       if: steps.cache.outputs.cache-hit != 'true'
       run: go install github.com/fzipp/gocyclo/cmd/gocyclo@$GOCYCLO_VERSION
 
     - name: install goimports
+      shell: bash
       if: steps.cache.outputs.cache-hit != 'true'
       run: go install golang.org/x/tools/cmd/goimports@$GOIMPORTS_VERSION
 
     - name: generate code
+      shell: bash
       run: go generate
