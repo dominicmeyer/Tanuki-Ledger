@@ -18,12 +18,12 @@ runs:
         path: |
           ~/go
           ~/.cache
-        key: ${{ runner.os }}-project-setup-$GO_VERSION-$TEMPL_VERSION-$AIR_VERSION-$GOCYCLO_VERSION-$GOIMPORTS_VERSION
+        key: ${{ runner.os }}-project-setup-${{ env.GO_VERSION }}-${{ env.TEMPL_VERSION }}-${{ env.AIR_VERSION }}-${{ env.GOCYCLO_VERSION }}-${{ env.GOIMPORTS_VERSION }}
 
     - name: setup go environment
       uses: actions/setup-go@v5.4.0
       with:
-        go-version: $GO_VERSION
+        go-version: ${{ env.GO_VERSION }}
 
     - name: setup system dependencies
       shell: bash
