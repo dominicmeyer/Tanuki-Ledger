@@ -5,6 +5,7 @@ runs:
   using: "composite"
   steps:
     - name: set workflow env
+      shell: bash
       run: |
         echo "GO_VERSION=1.23.6"         >> $GITHUB_ENV
         echo "TEMPL_VERSION=v0.3.833"    >> $GITHUB_ENV
