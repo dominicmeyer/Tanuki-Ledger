@@ -1,17 +1,18 @@
 name: 'Setup Project Dependencies & run initial Commands'
 description: 'Installs all necessary dependencies for this projects workflows to use and initialy runs relevant commands'
 
-env:
-  GO_VERSION="1.23.6"
-  TEMPL_VERSION="v0.3.833"
-  AIR_VERSION="v1.61.7"
-  GOCYCLO_VERSION="v0.6.0"
-  GOIMPORTS_VERSION="v0.30.0"
-
 runs:
   using: "composite"
   steps:
-    - name: Cache Primes
+    - name: set workflow env
+      run: |
+        echo "GO_VERSION=1.23.6"         >> $GITHUB_ENV
+        echo "TEMPL_VERSION=v0.3.833"    >> $GITHUB_ENV
+        echo "AIR_VERSION=v1.61.7"       >> $GITHUB_ENV
+        echo "GOCYCLO_VERSION=v0.6.0"    >> $GITHUB_ENV
+        echo "GOIMPORTS_VERSION=v0.30.0" >> $GITHUB_ENV
+  
+    - name: Cache
       id: cache
       uses: actions/cache@v4
       with:
