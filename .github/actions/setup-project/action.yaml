@@ -1,0 +1,72 @@
+name: 'Setup Project Dependencies & run initial Commands'
+description: 'Installs all necessary dependencies for this projects workflows to use and initialy runs relevant commands'
+
+runs:
+  using: "composite"
+  steps:
+    - name: set workflow env
+      shell: bash
+      run: |
+        echo "GO_VERSION=1.23.6"         >> $GITHUB_ENV
+        echo "TEMPL_VERSION=v0.3.833"    >> $GITHUB_ENV
+        echo "AIR_VERSION=v1.61.7"       >> $GITHUB_ENV
+        echo "GOCYCLO_VERSION=v0.6.0"    >> $GITHUB_ENV
+        echo "GOIMPORTS_VERSION=v0.30.0" >> $GITHUB_ENV
+  
+    - name: Cache
+      id: cache
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/go/pkg/mod/cache
+          ~/.cache
+          node_modules
+        key: ${{ runner.os }}-project-setup-${{ env.GO_VERSION }}-${{ env.TEMPL_VERSION }}-${{ env.AIR_VERSION }}-${{ env.GOCYCLO_VERSION }}-${{ env.GOIMPORTS_VERSION }}
+
+    - name: setup go environment
+      uses: actions/setup-go@v5.4.0
+      with:
+        go-version: ${{ env.GO_VERSION }}
+
+    - name: setup system dependencies
+      shell: bash
+      run: |
+        sudo apt-get update && sudo apt-get install -y --allow-downgrades \
+          nodejs=18.19.1* \
+          npm=9.2.0* \
+          libgtk2.0-0t64=2.24.33* \
+          libgtk-3-0t64=3.24.41* \
+          libgbm-dev=24.0.5* \
+          libgbm1=24.0.5* \
+          libnotify-dev=0.8.3* \
+          libnss3=2:3.98* \
+          libxss1=1:1.2.3* \
+          libasound2t64=1.2.11* \
+          libxtst6=2:1.2.3* \
+          xauth=1:1.1.2* \
+          xvfb=2:21.1.12*
+
+    - name: install npm packages
+      if: steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: npm install
+
+    - name: install templ
+      shell: bash
+      run: go install github.com/a-h/templ/cmd/templ@${{ env.TEMPL_VERSION }}
+
+    - name: install air
+      shell: bash
+      run: go install github.com/air-verse/air@${{ env.AIR_VERSION }}
+
+    - name: install gocyclo
+      shell: bash
+      run: go install github.com/fzipp/gocyclo/cmd/gocyclo@${{ env.GOCYCLO_VERSION }}
+
+    - name: install goimports
+      shell: bash
+      run: go install golang.org/x/tools/cmd/goimports@${{ env.GOIMPORTS_VERSION }}
+
+    - name: generate code
+      shell: bash
+      run: go generate

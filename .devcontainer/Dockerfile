@@ -20,3 +20,5 @@ RUN apt-get update \
     && go install github.com/fzipp/gocyclo/cmd/gocyclo@v0.6.0 \
     && go install github.com/air-verse/air@v1.61.7 \
     && go install github.com/a-h/templ/cmd/templ@v0.3.833
+
+CMD [ "sleep", "infinity" ]
