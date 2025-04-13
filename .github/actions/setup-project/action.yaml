@@ -20,6 +20,7 @@ runs:
         path: |
           ~/go/pkg/mod/cache
           ~/.cache
+          node_modules
         key: ${{ runner.os }}-project-setup-${{ env.GO_VERSION }}-${{ env.TEMPL_VERSION }}-${{ env.AIR_VERSION }}-${{ env.GOCYCLO_VERSION }}-${{ env.GOIMPORTS_VERSION }}
 
     - name: setup go environment
@@ -46,28 +47,24 @@ runs:
           xvfb=2:21.1.12*
 
     - name: install npm packages
-      shell: bash
       if: steps.cache.outputs.cache-hit != 'true'
+      shell: bash
       run: npm install
 
     - name: install templ
       shell: bash
-      if: steps.cache.outputs.cache-hit != 'true'
       run: go install github.com/a-h/templ/cmd/templ@${{ env.TEMPL_VERSION }}
 
     - name: install air
       shell: bash
-      if: steps.cache.outputs.cache-hit != 'true'
       run: go install github.com/air-verse/air@${{ env.AIR_VERSION }}
 
     - name: install gocyclo
       shell: bash
-      if: steps.cache.outputs.cache-hit != 'true'
       run: go install github.com/fzipp/gocyclo/cmd/gocyclo@${{ env.GOCYCLO_VERSION }}
 
     - name: install goimports
       shell: bash
-      if: steps.cache.outputs.cache-hit != 'true'
       run: go install golang.org/x/tools/cmd/goimports@${{ env.GOIMPORTS_VERSION }}
 
     - name: generate code
