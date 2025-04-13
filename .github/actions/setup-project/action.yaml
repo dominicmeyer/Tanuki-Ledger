@@ -18,7 +18,7 @@ runs:
       uses: actions/cache@v4
       with:
         path: |
-          ~/go
+          ~/go/pkg/mod/cache
           ~/.cache
         key: ${{ runner.os }}-project-setup-${{ env.GO_VERSION }}-${{ env.TEMPL_VERSION }}-${{ env.AIR_VERSION }}-${{ env.GOCYCLO_VERSION }}-${{ env.GOIMPORTS_VERSION }}
 
