@@ -3,7 +3,7 @@ module github.com/dominicmeyer/Tanuki-Ledger
 go 1.23.6
 
 require (
-	github.com/PuerkitoBio/goquery v1.10.2
+	github.com/PuerkitoBio/goquery v1.10.3
 	github.com/a-h/templ v0.3.857
 )
 
@@ -16,5 +16,5 @@ require (
 require (
 	github.com/andybalholm/cascadia v1.3.3 // indirect
 	github.com/stretchr/testify v1.10.0
-	golang.org/x/net v0.37.0 // indirect
+	golang.org/x/net v0.39.0 // indirect
 )
