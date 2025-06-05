@@ -8,7 +8,7 @@ runs:
       shell: bash
       run: |
         echo "GO_VERSION=1.23.6"         >> $GITHUB_ENV
-        echo "TEMPL_VERSION=v0.3.833"    >> $GITHUB_ENV
+        echo "TEMPL_VERSION=v0.3.887"    >> $GITHUB_ENV
         echo "AIR_VERSION=v1.61.7"       >> $GITHUB_ENV
         echo "GOCYCLO_VERSION=v0.6.0"    >> $GITHUB_ENV
         echo "GOIMPORTS_VERSION=v0.30.0" >> $GITHUB_ENV
