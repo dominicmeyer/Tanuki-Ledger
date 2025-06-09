@@ -4,7 +4,7 @@ go 1.23.6
 
 require (
 	github.com/PuerkitoBio/goquery v1.10.3
-	github.com/a-h/templ v0.3.887
+	github.com/a-h/templ v0.3.898
 )
 
 require (
