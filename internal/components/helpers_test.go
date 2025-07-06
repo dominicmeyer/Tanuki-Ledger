@@ -13,6 +13,7 @@ func RenderComponent(t *testing.T, component templ.Component) *goquery.Document 
 	t.Helper()
 
 	reader, writer := io.Pipe()
+
 	go func() {
 		_ = component.Render(context.Background(), writer)
 		_ = writer.Close()
