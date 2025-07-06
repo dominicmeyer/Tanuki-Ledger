@@ -19,6 +19,6 @@ RUN apt-get update \
     && go install golang.org/x/tools/cmd/goimports@v0.30.0 \
     && go install github.com/fzipp/gocyclo/cmd/gocyclo@v0.6.0 \
     && go install github.com/air-verse/air@v1.61.7 \
-    && go install github.com/a-h/templ/cmd/templ@v0.3.833
+    && go install github.com/a-h/templ/cmd/templ@v0.3.906
 
 CMD [ "sleep", "infinity" ]
